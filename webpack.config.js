@@ -3,8 +3,8 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 const path = require('path');
 
 module.exports = (env, argv) => {
-    const { mode } = argv
-    const isProduction = mode === 'production'
+    const { mode } = argv;
+    const isProduction = mode === 'production';
 
     return {
         output: {
@@ -60,8 +60,14 @@ module.exports = (env, argv) => {
             open: true, // open navigator
             port: 3000,
             compress: true,
-            hot: true
+            hot: true,
+            //routing config
+            historyApiFallback: true, 
+            // eslint-disable-next-line no-dupe-keys
+            historyApiFallback: {
+              disableDotRule: true
+            },
         },
         devtool: isProduction ?'source-map' : 'inline-source-map'//view source as original files (takes more time to compile)
-    }
-}
+    };
+};
