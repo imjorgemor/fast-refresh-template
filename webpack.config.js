@@ -17,14 +17,21 @@ module.exports = (env, argv) => {
         module: {
             rules: [
                 {
-                    test: /\.jsx?$/,
+                    test: /\.(js|jsx)$/,
                     exclude: /node_modules/,
                     use: {
                         loader: 'babel-loader',
                         options: {
-                            //pollyfill required
-                            presets: [['@babel/preset-env',{ targets: "defaults", "debug":true, "useBuiltIns":"usage", "corejs":3}], ['@babel/preset-react',{runtime:"automatic"}]]
-                            }
+                            presets: [
+                            //pollyfill required for supporting navigators => takes more time to compile
+                                // [
+                                //     '@babel/preset-env', { targets: "defaults", "debug": true, "useBuiltIns": "usage", "corejs": 3 }
+                                // ],
+                                [
+                                    '@babel/preset-react', { runtime: "automatic" } //not necessary import react
+                                ]
+                            ]
+                        }
                     }
                 },
                 {
@@ -44,7 +51,7 @@ module.exports = (env, argv) => {
         plugins: [
             new HtmlWebpackPlugin({
                 template: './public/index.html',
-                favicon:"./src/assets/favicon.ico",        
+                favicon: "./public/favicon.ico",
 
             }),
             new ReactRefreshWebpackPlugin(),
@@ -55,6 +62,6 @@ module.exports = (env, argv) => {
             compress: true,
             hot: true
         },
-        devtool: 'source-map' //view source as original files
+        devtool: isProduction ?'source-map' : 'inline-source-map'//view source as original files (takes more time to compile)
     }
 }
