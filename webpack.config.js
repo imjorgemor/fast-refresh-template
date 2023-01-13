@@ -2,13 +2,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const path = require('path');
 
+const isDevelopment = process.env.NODE_ENV !== 'production';
+
 module.exports = (env, argv) => {
-    const { mode } = argv;
-    const isProduction = mode === 'production';
 
     return {
+        mode: isDevelopment ? 'development' : 'production',
         output: {
-            filename: isProduction
+            filename: !isDevelopment
                 ? '[name].[contenthash].js'
                 : 'main.js',
             path: path.resolve(__dirname, 'build'),
@@ -70,7 +71,7 @@ module.exports = (env, argv) => {
             },
             client: { overlay: true }, //errors are shown in the web
         },
-        devtool: isProduction ?'source-map' : 'inline-source-map',//view source as original files (takes more time to compile)
+        devtool: isDevelopment ?'source-map' : 'inline-source-map',//view source as original files (takes more time to compile)
         resolve: {
             extensions: ['.js', '.jsx'], //accept both extensions on src files
           },
