@@ -19,6 +19,7 @@ module.exports = (env, argv) => {
                 {
                     test: /\.(js|jsx)$/,
                     exclude: /node_modules/,
+                    include: path.join(__dirname, 'src'),
                     use: {
                         loader: 'babel-loader',
                         options: {
@@ -67,7 +68,11 @@ module.exports = (env, argv) => {
             historyApiFallback: {
               disableDotRule: true
             },
+            client: { overlay: true }, //errors are shown in the web
         },
-        devtool: isProduction ?'source-map' : 'inline-source-map'//view source as original files (takes more time to compile)
+        devtool: isProduction ?'source-map' : 'inline-source-map',//view source as original files (takes more time to compile)
+        resolve: {
+            extensions: ['.js', '.jsx'], //accept both extensions on src files
+          },
     };
 };
