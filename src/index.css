@@ -2,9 +2,42 @@
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
         Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
         sans-serif;
-        box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-.app {
-    background-color: rgb(172, 169, 169);
+*,
+::before,
+::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    color: inherit;
+    font-family: sans-serif;
+}
+
+html,
+body {
+    min-height: 100vh;
+}
+
+img,
+picture,
+video {
+    display: block;
+    max-width: 100%;
+}
+
+button {
+    font-family: inherit;
+    border: none;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
 }

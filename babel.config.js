@@ -10,5 +10,6 @@ module.exports = (api) => {
         ],
         // Applies the react-refresh Babel plugin on non-production modes only
         ...(!api.env('production') && { plugins: ['react-refresh/babel'] }),
+        "plugins": ["babel-plugin-styled-components"]
     };
 };
