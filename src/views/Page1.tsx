@@ -4,6 +4,7 @@ export const Page1 = () => {
     return (
         <div>
             <Link to="/page2">Page2</Link>
+
         </div>
     );
 };

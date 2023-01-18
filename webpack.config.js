@@ -4,6 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const ReactRefreshTypeScript = require('react-refresh-typescript');
+const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
+const styledComponentsTransformer = createStyledComponentsTransformer();
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -62,9 +64,10 @@ module.exports = (env, argv) => {
                                 transpileOnly: true,
                                 ...(isDevelopment && {
                                     getCustomTransformers: () => ({
-                                        before: [ReactRefreshTypeScript()],
+                                        before: [ReactRefreshTypeScript(),styledComponentsTransformer],
                                     }),
                                 }),
+                                
                             },
                         },
                     ],

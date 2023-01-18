@@ -23,6 +23,7 @@
 html,
 body {
     min-height: 100vh;
+    padding: 1rem;
 }
 
 img,
@@ -35,6 +36,7 @@ video {
 button {
     font-family: inherit;
     border: none;
+    background: transparent;
 }
 
 a {
