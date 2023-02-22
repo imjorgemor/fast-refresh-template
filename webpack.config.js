@@ -57,8 +57,8 @@ module.exports = (env, argv) => {
                 favicon: "./public/favicon.ico",
 
             }),
-            new ReactRefreshWebpackPlugin(),
-            new MiniCssExtractPlugin()
+            isDevelopment && new ReactRefreshWebpackPlugin(),
+            new MiniCssExtractPlugin(),
         ],
         devServer: {
             open: true, // open navigator
