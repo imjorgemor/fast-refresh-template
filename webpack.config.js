@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const ReactRefreshTypeScript = require('react-refresh-typescript');
+const MiniCssExtractPluguin = require('mini-css-extract-plugin');
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -12,12 +13,42 @@ module.exports = (env, argv) => {
     return {
         mode: isDevelopment ? 'development' : 'production',
         output: {
-            filename: !isDevelopment
-                ? '[name].[contenthash].js'
-                : 'main.js',
+            filename: '[name].[contenthash].js',
             path: path.resolve(__dirname, 'build'),
             assetModuleFilename: "assets/[hash][ext][query]"
         },
+
+        optimization: {
+            runtimeChunk: {
+                name: 'runtime'
+
+            },
+            splitChunks: {
+                chunks: 'all', //default: async; initial | async | all
+                cacheGroups: {
+                    //webpack caching priorities
+                    vendors: {
+                        minSize: 0, //size when caching
+                        name: 'vendors',
+                        priority: 1,
+                        test: /[\\/]node_modules[\\/]/
+                    },
+
+                    react: {
+                        name: 'react',
+                        priority: 2,
+                        test: /[\\/]node_modules[\\/](react|react-dom)/
+                    },
+
+                    asyncModules:{
+                        minSize: 0,
+                        chunks: 'async',
+                        name:'dynamic'
+                    }
+                }
+            }
+        },
+
         module: {
             rules: [
                 {
@@ -41,7 +72,8 @@ module.exports = (env, argv) => {
                 },
                 {
                     test: /\.css$/,
-                    use: ['style-loader', 'css-loader']
+                    use: [
+                        argv.mode === 'production' ? MiniCssExtractPluguin.loader : 'style-loader', 'css-loader']
                 },
                 {
                     test: /\.(png|svg|jpg|jpeg|gif)$/i,
@@ -72,11 +104,15 @@ module.exports = (env, argv) => {
             ]
         },
         plugins: [
+            new MiniCssExtractPluguin({
+                filename: 'styles.[contenthash].css'
+            }),
             isDevelopment && new ReactRefreshWebpackPlugin(),
             new ForkTsCheckerWebpackPlugin(),
             new HtmlWebpackPlugin({
                 template: './public/index.html',
                 favicon: "./public/favicon.ico",
+                title: 'Fast refresh app'
             }),
         ].filter(Boolean),
         devServer: {
