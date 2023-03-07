@@ -41,3 +41,8 @@ Will create a `build` directory containing your compiled code.
 $ npx servor build
 ```
 Recommended to launch locally a server with the build modules.
+
+```
+$ npx webpack --mode production --analyze
+```
+To analyze bundle size and detect caching optimizations like react or react-dom
